@@ -8,21 +8,47 @@ project(vscode-vcpkg-template LANGUAGES CXX)
 
 add_executable(vscode-vcpkg-template src/main.cpp)
 
+find_package(openssl REQUIRED)
+
+find_path(CPP_HTTPLIB_INCLUDE_DIRS "httplib.h")
+
 find_package(dcmtk REQUIRED)
 # Add the given directories to those the compiler uses to search for include files.
 # Use target_* whenever possible https://stackoverflow.com/a/56565927/8242705
 # Difference between PUBLIC & PRIVATE: https://zhuanlan.zhihu.com/p/82244559
 message(STATUS "${DCMTK_LIBRARIES}")
 message(STATUS "${DCMTK_INCLUDE_DIR}")
-target_include_directories(vscode-vcpkg-template PRIVATE ${DCMTK_INCLUDE_DIR})
-target_link_libraries(vscode-vcpkg-template PRIVATE ${DCMTK_LIBRARIES})
-
 
 find_package(SQLite3 REQUIRED)
 message(STATUS "SQLite3_INCLUDE_DIR: ${SQLite3_INCLUDE_DIR}")
 message(STATUS "SQLite3_LIBRARIES: ${SQLite3_LIBRARIES}")
-target_include_directories(vscode-vcpkg-template PRIVATE ${SQLite3_INCLUDE_DIR})
-target_link_libraries(vscode-vcpkg-template PRIVATE ${SQLite3_LIBRARIES})
+
+
+find_package(fmt REQUIRED)
+message(STATUS "FMT_INCLUDE_DIR: ${fmt_INCLUDE_DIR}")
+message(STATUS "FMT_LIBRARIES: ${fmt_LIBRARIES}")
+
+find_package(nlohmann_json CONFIG REQUIRED)
+
+target_include_directories(vscode-vcpkg-template PRIVATE
+${SQLite3_INCLUDE_DIR}
+${DCMTK_INCLUDE_DIR}
+${CPP_HTTPLIB_INCLUDE_DIRS}
+
+)
+
+
+target_link_libraries(vscode-vcpkg-template PRIVATE 
+-static 
+-static-libstdc++
+${DCMTK_LIBRARIES}
+${SQLite3_LIBRARIES}
+ OpenSSL::SSL 
+ OpenSSL::Crypto
+ fmt::fmt
+ nlohmann_json nlohmann_json::nlohmann_json
+
+)
 
 message(STATUS "CMAKE_BINARY_DIR: ${CMAKE_BINARY_DIR}")
 message(STATUS "CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")

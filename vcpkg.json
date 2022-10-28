@@ -16,6 +16,24 @@
       "version>=": "3.35.2",
       "default-features": true,
       "platform": "windows & x64"
+    },
+    {
+      "name": "fmt",
+      "version>=": "9.0.0",
+      "default-features": true,
+      "platform": "windows & x64"
+    },
+    {
+      "name": "openssl",
+      "platform": "windows & x64"
+    },
+    {
+      "name": "cpp-httplib",
+      "platform": "windows & x64"
+    },
+    {
+      "name": "nlohmann-json",
+      "platform": "windows & x64"
     }
   ]
 }
