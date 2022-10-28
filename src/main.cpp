@@ -173,10 +173,10 @@ int main() {
         HttpRequest();
     }
     catch (exception& e) {
-        cerr << e.what() << endl;
+        std::cerr << e.what() <<std:: endl;
     }
     catch (...) {
-        cerr << "catch ..." << endl;
+        std::cerr << "catch ..." << std::endl;
     }
     
     return 0;
